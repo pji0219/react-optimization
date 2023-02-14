@@ -15,7 +15,7 @@ import Button from './components/UI/Button/Button';
 
 /*
   부모 컴포넌트가 재실행되면 자식 컴포넌트 또한 재실행 된다.
-  왜냐하면 함수의 return문에서 자식 컴포넌트가 호출이 되기 때문에
+  왜냐하면 함수의 return문에서 자식 컴포넌트가 호출이 되기 때문이다.
 */
 
 /* 
@@ -35,7 +35,7 @@ function App() {
   return (
     <div className='app'>
       <h1>Hi there!</h1>
-      <DemoOutput show={showParagraph} />
+      <DemoOutput show={false} />
       <Button onClick={toggleParagraphHandler}>Toggle Paragraph!</Button>
     </div>
   );
