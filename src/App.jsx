@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 
 import './App.css';
 import DemoOutput from './components/Demo/DemoOutput';
@@ -25,17 +25,27 @@ import Button from './components/UI/Button/Button';
 
 function App() {
   const [showParagraph, setShowparagraph] = useState(false);
+  const [allowToggle, setAllowToggle] = useState(false);
 
   console.log('App running!');
 
-  const toggleParagraphHandler = () => {
-    setShowparagraph((prevShowParagraph) => !prevShowParagraph);
+  // 컴포넌트 함수가 재실행 될 때 마다 내부에 있는 함수를 재생성 하지 않게 useCallback으로 저장
+  // 함수 내에서 사용하는 컴포넌트에서 사용하는 props, state, context를 의존성 배열에 지정할 수 있다.
+  const toggleParagraphHandler = useCallback(() => {
+    if (allowToggle) {
+      setShowparagraph((prevShowParagraph) => !prevShowParagraph);
+    }
+  }, [allowToggle]);
+
+  const allowToggleHandler = () => {
+    setAllowToggle(true);
   };
 
   return (
     <div className='app'>
       <h1>Hi there!</h1>
-      <DemoOutput show={false} />
+      <DemoOutput show={showParagraph} />
+      <Button onClick={allowToggleHandler}>Allow Toggling</Button>
       <Button onClick={toggleParagraphHandler}>Toggle Paragraph!</Button>
     </div>
   );
