@@ -1,7 +1,8 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useMemo } from 'react';
 
 import './App.css';
-import DemoOutput from './components/Demo/DemoOutput';
+import DemoList from './components/Demo/DemoList';
+// import DemoOutput from './components/Demo/DemoOutput';
 import Button from './components/UI/Button/Button';
 
 // 화면 렌더링 과정
@@ -24,14 +25,20 @@ import Button from './components/UI/Button/Button';
 */
 
 function App() {
-  const [showParagraph, setShowparagraph] = useState(false);
-  const [allowToggle, setAllowToggle] = useState(false);
+  // const [showParagraph, setShowparagraph] = useState(false);
+  // const [allowToggle, setAllowToggle] = useState(false);
+
+  const [listTitle, setListTitle] = useState('My List');
+
+  // 배열 역시 객체이므로 컴포넌트가 재실행될 때마다 재생성 됨
+  // 그래서 useMemo를 통하여 한번만 생성 후 재사용하게 함
+  const items = useMemo(() => [5, 3, 1, 10, 9], []);
 
   console.log('App running!');
 
   // 컴포넌트 함수가 재실행 될 때 마다 내부에 있는 함수를 재생성 하지 않게 useCallback으로 저장
   // 함수 내에서 사용하는 컴포넌트에서 사용하는 props, state, context를 의존성 배열에 지정할 수 있다.
-  const toggleParagraphHandler = useCallback(() => {
+  /*  const toggleParagraphHandler = useCallback(() => {
     if (allowToggle) {
       setShowparagraph((prevShowParagraph) => !prevShowParagraph);
     }
@@ -39,14 +46,20 @@ function App() {
 
   const allowToggleHandler = () => {
     setAllowToggle(true);
-  };
+  }; */
+
+  const changeTitleHandler = useCallback(() => {
+    setListTitle('New Title');
+  }, []);
 
   return (
     <div className='app'>
-      <h1>Hi there!</h1>
+      {/* <h1>Hi there!</h1>
       <DemoOutput show={showParagraph} />
       <Button onClick={allowToggleHandler}>Allow Toggling</Button>
-      <Button onClick={toggleParagraphHandler}>Toggle Paragraph!</Button>
+      <Button onClick={toggleParagraphHandler}>Toggle Paragraph!</Button> */}
+      <DemoList title={listTitle} items={items} />
+      <Button onClick={changeTitleHandler}>Change List Title</Button>
     </div>
   );
 }
